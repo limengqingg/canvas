@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+         //step2：设置字体相关样式
+         ctx.font = '100px 微软雅黑';
+         //设置文字颜色
+         ctx.fillStyle="gold";
+         //
+       //step1：画文字
+       ctx.fillText('Hello',250,250);
+
+       //绘制空心文字
+       ctx.strokeStyle = 'red';
+       ctx.strokeText('你好',0,250)
+      
+       ctx.fillStyle="blue";
+       ctx.fillText('Hello canvas',100,100,400);  //最大宽度
+
+    </script>
+</body>
+</html>

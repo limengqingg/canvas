@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+           
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+       
+        ctx.beginPath();
+        ctx.arc(300,200,80,Math.PI*0.5,Math.PI*1.5,true);
+        // ctx.fillStyle="block";
+        // ctx.fill();
+        ctx.lineWidth  =  10;
+        ctx.stroke();
+        ctx.closePath();
+
+       
+        // ctx.beginPath();
+        // ctx.arc(300,200,60,Math.PI*0.5,Math.PI*1.5,true);
+        // ctx.stroke();
+        // ctx.closePath();
+        // ctx.clearRect(300,200,60,60)
+        ctx.beginPath()
+        ctx.arc(110,30,20,Math.PI*1.5,Math.PI*2.5,true);
+        ctx.lineWidth  =  1;
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(110,70,20,Math.PI*0.5,Math.PI*1.5,true);
+        ctx.lineWidth  =  1;
+        ctx.stroke();
+        ctx.closePath();
+       
+
+        ctx.beginPath()
+        ctx.arc(170,30,20,Math.PI*1.5,Math.PI*2.5,true);
+        ctx.lineWidth  =  1;
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(170,70,20,Math.PI*0.5,Math.PI*1.5,true);
+        ctx.lineWidth  =  1;
+        ctx.stroke();
+        ctx.closePath();
+       
+        ctx.beginPath()
+        ctx.arc(250,30,20,Math.PI*1.5,Math.PI*2.5,true);
+        ctx.lineWidth  =  1;
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.arc(250,70,20,Math.PI*0.5,Math.PI*1.5,true);
+        ctx.lineWidth  =  1;
+        ctx.stroke();
+        ctx.closePath();
+       
+     
+      
+        
+        drawLine(100,100,100,300,'black',2)
+        drawLine(100,300,300,300,'black',2)
+        drawLine(300,300,300,100,'black',2)
+        drawLine(300,100,100,100,'black',2)
+        
+        function drawLine(x1,y1,x2,y2,color,width){
+            ctx.beginPath();
+        ctx.moveTo(x1,  y1);
+        ctx.lineTo(x2,  y2);
+        ctx.strokeStyle=color;
+        ctx.lineWidth = width;
+        ctx.stroke();     
+        ctx.closePath();
+
+       
+        }
+    </script>
+</body>
+</html>

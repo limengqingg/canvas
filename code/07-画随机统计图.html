@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+        ctx.beginPath();
+        ctx.moveTo(200,  200);  
+        ctx.lineTo(200,  400);
+        ctx.lineTo(400,  400);
+        ctx.strokeStyle='black';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.closePath();
+
+        //画矩形
+        // ctx.fillStyle='red';
+        // ctx.fillRect(220,300,20,100)
+        // ctx.fillRect(300,300,20,100)
+
+        for(var i = 0;i<5;i++){
+            var height = Math.random()*100+10;
+            ctx.fillStyle='#'+parseInt(Math.random()*0xFFFFFF).toString(16);
+            // ctx.fillStyle = 'rgb('+parseInt(Math.random()*256)+
+            // ','+parseInt(Math.random()*256)+
+            // ','+parseInt(Math.random()*256)+')'
+            
+            ctx.fillRect(220+40*i,400-height,20,height)
+        }
+
+    </script>
+</body>
+</html>

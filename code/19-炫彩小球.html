@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+       
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" >您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var canvas = document.querySelector('#cont');
+        var ctx = canvas.getContext('2d');
+        //获取窗口可视区域宽高
+         var w=document.documentElement.clientWidth-6;
+         var h=document.documentElement.clientHeight-6;
+
+         //更新canvas宽高
+         canvas.width = w;
+         canvas.height = h;
+      
+        //产生随机数
+        function r(num){
+          return Math.random()*num;
+      };
+
+        //step1:创建小球类
+          /*
+       @param x  起始x坐标
+       @param y  起始y坐标
+       @param r  小球半径
+       @param color  小球颜色
+      
+      */
+        function Ball(x,y){
+            this.x = x;
+          this.y = y;
+          this.r = 60;//【10，60】
+          //随机颜色
+          this.color = '#'+parseInt(Math.random()*0xffffff).toString(16);
+        }
+
+        Ball.prototype.show = function(){
+          this.r--;//半径越来越小
+            drawCircle(this.x,this.y,this.r,this.color);
+        };
+
+        var ballArr = [];
+        //鼠标滑动事件
+        window.onmousemove = function(e){
+           console.log(e.x,e.y)
+           var ball = new Ball(e.x,e.y);
+          //放入小球数组
+          ballArr.push(ball);
+          ball.show();
+
+        }
+
+      //创造小球title
+    //   for(var i = 0 ;i<3;i++){
+    //       //当前小球
+    //       var ball = new Ball(100+i*50,100);
+    //       //放入小球数组
+    //       ballArr.push(ball);
+    //       ball.show();
+    //   }
+        // var ball = new Ball(100,100);
+        // ball.show();
+        setInterval(function () {
+                //清除画布
+                ctx.clearRect(0, 0, w, h);
+                for(var i = 0;i<ballArr.length;i++){
+                    //如果小球半径r已经小于0，需要从数组中删除  splice(位置，1)
+                    var ball = ballArr[i];
+                    if(ball.r<=0){
+                        ballArr.splice(i,1)
+                    }else{
+                        ball.show();
+                    }
+                }
+            }, 10)
+
+
+  
+
+
+        //花小球
+        function drawCircle(x,y,r,color){
+            ctx.beginPath();
+            ctx.arc(x,y,r,0,Math.PI*2);
+            ctx.fillStyle = color || '#000';
+            ctx.fill();
+        }
+    </script>
+</body>
+</html>

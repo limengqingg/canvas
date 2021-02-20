@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+        
+        var w=500, h=500;
+
+        //step1:画文字
+        drawText('心♪(^∇^*)心♪(^∇^*)',w/2,h/2);
+        // drawText('小花',w/2,h/2);
+        //step2:获取像素点
+        var copy = ctx.getImageData(0,0,w,h);
+
+           //step3:清除画布
+           ctx.clearRect(0,0,w,h);
+        //step4:筛选有效像素点
+        var leap = 5;
+        for(var y=0;y<h;y+=leap){
+            for(var x = 0;x<w;x+=leap){
+                var index = x+y*w;
+                // var r = copy.data[index * 4 + 0];
+                // var g = copy.data[index * 4 + 1];
+                // var b = copy.data[index * 4 + 2];
+                var a = copy.data[index * 4 + 3];
+                if(a>128){
+                    //step5:画圆
+                    drawCircle(x,y,2,'#f00')
+                }
+            }
+        }
+
+
+            function drawCircle(x, y, r, color) {
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2);
+                ctx.fillStyle = color || '#000';
+                ctx.fill();
+          }
+             //画文字
+             function drawText(text, x, y) {
+                ctx.font = '80px 微软雅黑';
+                ctx.fillStyle = '#000';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = "middle"
+                ctx.fillText(text, x, y,w);
+          }
+
+
+       
+
+
+    </script>
+</body>
+</html>

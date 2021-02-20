@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+         //step2：设置字体相关样式
+         ctx.font = '100px 微软雅黑';
+
+         //设置线性渐变
+         var gradient = ctx.createLinearGradient(0,0,vancas.width,0);
+         gradient.addColorStop("0","yellow");
+         gradient.addColorStop("0.3","purple");
+         gradient.addColorStop("0.5","blue");
+         gradient.addColorStop("0.7","grey");
+         gradient.addColorStop("1.0","red");
+         //应用渐变
+         ctx.fillStyle =   gradient;
+       //step1：画文字
+       ctx.fillText('今天天气不错，风和日丽',0,100,500);
+        //应用渐变
+        ctx.strokeStyle =   gradient;
+       ctx.strokeText('适合出去玩',0,300,500);
+
+    </script>
+</body>
+</html>

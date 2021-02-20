@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px"></canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+        
+        //step1:画坐标系
+        ctx.beginPath();
+        ctx.moveTo(100,100);
+        ctx.lineTo(100,400);
+        ctx.lineTo(400,400);
+        ctx.stroke();
+        ctx.closePath();
+
+        //画矩形
+        ctx.fillStyle = 'pink';
+   ctx.fillRect(200,200,20,200);
+    </script>
+</body>
+</html>

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px"></canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+        
+        var w=500, h=500;
+
+        //step1:画文字
+        // drawText('心♪(^∇^*)心♪(^∇^*)',w/2,h/2);
+        drawText('你',w/2,h/2);
+        //step2:获取像素点
+        var copy = ctx.getImageData(0,0,w,h);
+        //    //step3:清除画布
+           ctx.clearRect(0,0,w,h);
+
+           /**---------------------------------------------**/
+           //产生随机数
+        function r(num){
+            return parseInt(Math.random()*num);
+        }
+        //运动次数
+        var times = 100;
+        //定义小球类
+        function Ball(xEnd,yEnd){
+            //起始位置
+            this.xStart = r(w);
+            this.yStart = r(h);
+            //结束为止
+            this.xEnd = xEnd;
+            this.yEnd = yEnd;
+            //计算运动速度
+             //公式
+                    //xSpeed = (x2-x1)/time
+                    //ySpeed = (y2-y1)/time
+            this.xSpeed = (this.xEnd - this.xStart)/times;
+            this.ySpeed = (this.yEnd - this.yStart)/times;
+
+            console.log(this.xSpeed,this.ySpeed)
+
+            //小球运动的中心点
+            this.x = this.xStart;
+            this.y = this.yStart;
+            //设置半径和颜色
+            this.r = 3;
+            this.color = '#f00';
+        }
+
+        Ball.prototype.show = function(){
+            //计算每次运动的坐标位置
+            this.x +=this.xSpeed;
+            this.y +=this.ySpeed;
+
+            drawCircle(this.x,this.y,this.r,this.color)
+        }
+        /**-----------------------------**/
+        //step4:筛选有效像素点
+        var leap = 10;
+        var ballArr = [];//小球数组
+        for(var y=0;y<h;y+=leap){
+            for(var x = 0;x<w;x+=leap){
+                var index = x+y*w;
+                var a = copy.data[index * 4 + 3];
+                if(a>128){
+                    //step5:调用小球类  画圆
+                    var ball= new Ball(x,y);
+                    //存入数组
+                    ballArr.push(ball)
+                    //显示小球
+                    ball.show();
+                    // drawCircle(x,y,1,'#f00')
+                }
+            }
+        }
+
+        //动起来
+        var count = 0;
+        var timer = setInterval(function(){
+         
+            //清除画布
+            ctx.clearRect(0,0,w,h);
+            for(var i=0;i<ballArr.length;i++){
+                ballArr[i].show();
+            }
+            count++;
+             //判断何时停止
+             if(count+1 == times){
+                clearInterval(timer);
+                return;
+            }
+        },50)
+
+       
+            function drawCircle(x, y, r, color) {
+                ctx.beginPath();
+                ctx.arc(x, y, r, 0, Math.PI * 2);
+                ctx.fillStyle = color || '#000';
+                ctx.fill();
+          }
+             //画文字
+             function drawText(text, x, y) {
+                ctx.font = '300px 微软雅黑';
+                ctx.fillStyle = '#000';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = "middle"
+                ctx.fillText(text, x, y,w);
+          }
+
+
+       
+
+
+    </script>
+</body>
+</html>

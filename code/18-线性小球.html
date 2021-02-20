@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+         //画布宽高
+         var w=h=500;
+      
+        //产生随机数
+        function r(num){
+          return Math.random()*num;
+      };
+
+        //step1:创建小球类
+          /*
+       @param x  起始x坐标
+       @param y  起始y坐标
+       @param r  小球半径
+       @param color  小球颜色
+       @param xSpeed  x轴速度t
+       @param ySpeed  y轴速度
+      */
+        function Ball(text){
+            this.x = r(380)+60;
+          this.y = r(380)+60;
+          this.r = r(30)+10;//【10，60】
+          this.color = '#'+parseInt(Math.random()*0xffffff).toString(16);
+
+          this.xSpeed = r(3)+2;//[2,5]
+          this.ySpeed = r(3)+1;//[1,4]
+
+          //接收外部参数
+          this.text = text;
+        }
+
+        Ball.prototype.show = function(){
+            this.run();
+            drawCircle(this.x,this.y,this.r,this.color);
+            drawText(this.text,this.x+this.r,this.y);//画文字
+        }
+
+        Ball.prototype.run = function(){
+        if(this.x-this.r<=0 || this.x+this.r>=w){
+                this.xSpeed=-this.xSpeed;
+            }
+            this.x = this.x+this.xSpeed
+
+            if(this.y-this.r<=0 || this.y+this.r>=h){
+                this.ySpeed=-this.ySpeed;
+            }
+            this.y = this.y+this.ySpeed
+      }
+
+      var titleArr = 'javascript HTML5前端 Java PHP Jquery Canvas CSS CSS3 Angular Bootstrap 全栈 NodeJs React'.split(' ')
+      
+    //创建一个小球的数组
+    var ballArr = [];
+      //创造小球title
+      for(var i = 0 ;i<5;i++){
+          //当前小球
+          var ball = new  Ball(titleArr[i]); //传入title
+          //放入小球数组
+          ballArr.push(ball);
+          ball.show();
+
+          //小球的连线  A球和B球j
+          for(var j = 0 ;j<i;j++){
+              //取出当前小球前面的小球
+              var prevBall = ballArr[j];
+              drawLine(ball.x,ball.y,prevBall.x,prevBall.y,ball.color);
+
+          }
+      }
+
+      //小球运动
+      setInterval(function(){
+             //清除画布
+             ctx.clearRect(0,0,w,h)
+          for(var i =0; i<ballArr.length;i++){
+              var ball = ballArr[i];
+              //更新坐标，显示小球
+            //   ball.run();
+              ball.show();
+               //小球的连线  A球和B球j
+          for(var j = 0 ;j<i;j++){
+              //取出当前小球前面的小球
+              var prevBall = ballArr[j];
+              drawLine(ball.x,ball.y,prevBall.x,prevBall.y,ball.color);
+
+          }
+
+          }
+      },50)
+
+         //画直线
+         function drawLine(x1,y1,x2,y2,color,width){
+            ctx.beginPath();
+        ctx.moveTo(x1,  y1);
+        ctx.lineTo(x2,  y2);
+        ctx.strokeStyle=color;
+        ctx.lineWidth = width;
+        ctx.stroke();     
+        ctx.closePath();
+        }
+
+        //画文字
+        function drawText(text,x,y){
+            ctx.font = '20px 微软雅黑';
+         ctx.textAlign = 'top';
+         ctx.textBaseline="middle"
+         ctx.fillText(text,x,y);
+        }
+
+
+        //花小球
+        function drawCircle(x,y,r,color){
+            ctx.beginPath();
+            ctx.arc(x,y,r,0,Math.PI*2);
+            ctx.fillStyle = color || '#000';
+            ctx.fill();
+        }
+    </script>
+</body>
+</html>

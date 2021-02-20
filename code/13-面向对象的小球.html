@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+
+        //画布宽高
+        var w=h=500;
+      function r(num){
+          return Math.random()*num;
+      };
+
+      /*
+       @param x  起始x坐标
+       @param y  起始y坐标
+       @param r  小球半径
+       @param color  小球颜色
+       @param xSpeed  x轴速度
+       @param ySpeed  y轴速度
+      */
+      function Ball(){
+        //   this.x = r(500);
+        //   this.y = r(500);
+          this.x = r(5)+60;
+          this.y = r(3)+60;
+          this.r = r(50)+10;//【10，60】
+          this.color = '#'+parseInt(Math.random()*0xffffff).toString(16);
+
+          this.xSpeed = r(3)+2;//[2,5]
+          this.ySpeed = r(3)+1;//[1,4]
+      };
+
+      //定义小球显示方法
+      Ball.prototype.show = function(){
+          //更新坐标
+          this.run();
+          ctx.beginPath();
+          ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+
+      };
+
+
+      //定义小球运动的方法（碰撞检测）
+      Ball.prototype.run = function(){
+        if(this.x-this.r<=0 || this.x+this.r>=w){
+                this.xSpeed=-this.xSpeed;
+            }
+            this.x = this.x+this.xSpeed
+
+            if(this.y-this.r<=0 || this.y+this.r>=h){
+                this.ySpeed=-this.ySpeed;
+            }
+            this.y = this.y+this.ySpeed
+      }
+
+    //   new Ball().show();
+    //   new Ball().show();
+    //   new Ball().show();
+    //   new Ball().show();
+    //   new Ball().show();
+    //   new Ball().show();
+
+    //创建一个小球的数组
+    var ballArr = [];
+      //创造小球
+      for(var i = 0 ;i<5;i++){
+          var ball = new  Ball();
+          //放入小球数组
+          ballArr.push(ball)
+          ball.show();
+      }
+
+      console.log(ballArr)
+
+      //小球运动
+      setInterval(function(){
+             //清除画布
+             ctx.clearRect(0,0,w,h)
+          for(var i =0; i<ballArr.length;i++){
+              var ball = ballArr[i];
+              //更新坐标，显示小球
+            //   ball.run();
+              ball.show();
+
+          }
+      },50)
+    </script>
+</body>
+</html>

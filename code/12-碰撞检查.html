@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+
+        //画布宽高
+        var w=h=500;
+        var x = 100;
+        var y = 100;
+        var r = 20;
+
+        //水平速度
+        xSpeed =3 ;
+        //垂直速度
+        ySpeed =1 ;
+     
+        setInterval(function(){
+            /**
+             * 在小球碰到边缘时，速度取相反即可！
+            */
+            if(x-r<=0 || x+r>=w){
+                xSpeed=-xSpeed;
+            }
+            x = x+xSpeed
+
+            if(y-r<=0 || y+r>=h){
+                ySpeed=-ySpeed;
+            }
+            y = y+ySpeed
+            //清除画布
+            ctx.clearRect(0,0,w,h)
+            // x++;
+            //水平运动
+            drowCircle(x,y,r);
+        },10)
+       
+
+        function drowCircle(x,y,r){
+            ctx.beginPath();
+            ctx.arc(x,y,r,0,Math.PI*2);
+        ctx.fillStyle='block';
+        ctx.fill();
+        ctx.stroke();
+        }
+
+
+      
+     
+    </script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+ 
+    <div class="write" id="write">
+        标题：<input id="title" type="text" placeholder="请输入标题"><br><br>
+        分类：<select id="type">
+                <option value="默认" selected>请选择</option>
+                <option value="美食" selected>美食</option>
+                <option value="代码" selected>代码</option>
+                <option value="生活" selected>生活</option>
+            </select>
+        <br><br>
+        <textarea name='' id="cont" cols="30" rows="10" placeholder="查询标题......."> </textarea>
+        <div class="send" id="add" type="button">添加</div>
+    </div>
+    <div class="list" id="list">
+        标题：<input id="title1" type="text" placeholder="查询标题"><br><br>
+        分类：<select id="type1">
+            <option value="默认" selected>请选择</option>
+            <option value="美食" selected>美食</option>
+            <option value="代码" selected>代码</option>
+            <option value="生活" selected>生活</option>
+        </select>
+        <div id="search" class="send">查询</div><br><br>
+        <div id="noteList">
+            
+        </div>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+    <script type="template" id="temp">
+        <div class="item">
+            <div class="title">@title<span>@type:@date</span></div>
+            <div class="content">@cont</div>
+        </div>
+    </script>
+    <script>
+      /*
+      本地记事本
+      1.发表日记
+      */
+
+
+
+      //获取列表
+      function getList(){
+          //取数据
+          var noteList = localStorage.getItem('noteList');
+          if (noteList == null) {
+              noteList = []
+          } else {
+              noteList = JSON.parse(noteList)
+          }
+          return noteList
+      }
+
+
+      //step1: 发表日记
+      $('#add').click(function(){
+          //获取用户输入信息
+          var title= $('#title').val().trim(); //去除前后空格
+          var type= $('#type').val().trim(); //去除前后空格
+          var cont= $('#cont').val().trim(); //去除前后空格
+
+          //判断：参数校验
+          if(title==''){
+              alert('标题不能为空！');
+              return;
+          }
+          if(type==''){
+              alert('分类不能为空！');
+              return;
+          }
+          if(cont==''){
+              alert('内容不能为空！');
+              return;
+          }
+          //准备json
+          var note = {"title":title,"type":type,"cont":cont,"date":new Date().toLocaleString()};
+          //存储json
+          //取出原先数据，合并当前数据
+          var noteList = localStorage.getItem('noteList');
+          if(noteList==null){
+              noteList=[]
+          }else{
+              noteList = JSON.parse(noteList)
+          }
+
+          //合并数据
+          noteList.push(note);
+          //存储数据
+          localStorage.setItem('noteList',JSON.stringify(noteList))
+
+          //清空数据
+          $('#title').val('');
+          $('#type').val('');
+          $('#cont').val('');
+
+            //重新渲染列表
+             showList();
+      })
+
+      //step2：展示列表
+      function showList(list){
+          //页面中清除原数据
+          $('#noteList').html('');
+          //取数据
+          var noteList = list || getList();
+
+          //渲染数据
+          var tpl = $('#temp').html();
+          var temp = '';
+          for(var i = 0;i<noteList.length;i++){
+              var note = noteList[i];
+            //   $(tpl.replace('@title',note.title)
+            //      .replace('@type',note.type)
+            //      .replace('@date',note.date)
+            //      .replace('@cont',note.cont))
+
+                var newNote = tpl.replace('@title',note.title)
+                 .replace('@type',note.type)
+                 .replace('@date',note.date)
+                 .replace('@cont',note.cont)
+                 $(newNote).prependTo($('#noteList'));
+          }
+           //默认展开第一个
+      // trigger ->模拟点击
+      $('#noteList>.item:first').find('.title').trigger('click');
+
+      }
+ 
+
+      
+      //事件委托  $(父元素).on(事件,子元素,函数) -》 事件冒泡
+      //step3  折叠展开方法
+      $('#noteList').on('click','.title',function(){
+          $(this).next().slideToggle()
+      })
+
+      //默认加载一次
+      showList();
+
+      //step4:查询功能
+      $('#search').click(function(){
+        var title= $('#title1').val().trim(); //去除前后空格
+        var type= $('#type1').val().trim(); //去除前后空格
+
+        
+          //判断：参数校验
+          if(title==''){
+              alert('查询标题不能为空！');
+              return;
+          }
+
+            //取数据
+            var noteList = getList();
+            //tempArr  缓存数组
+            var tempArr=[];
+            for(var i = 0;i<noteList.length;i++){
+                var note = noteList[i];
+                //通过title进行模糊查询，把查询后的将结果放入tempArr中
+                //indexOf
+                if(note.title.indexOf(title)>-1 && note.type==type){
+                    //存入数组
+                    tempArr.push(note);
+                }
+            }
+            showList(tempArr);
+      })
+
+     
+    </script>
+</body>
+</html>

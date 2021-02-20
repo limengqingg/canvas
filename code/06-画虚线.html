@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+        // ctx.lineJoin  = "round";
+        // ctx.beginPath();
+        // ctx.moveTo(200,  200);  // 13
+        // ctx.lineTo(200,  400);
+        // ctx.strokeStyle='black';
+        // ctx.lineWidth = 5;
+        // ctx.stroke();
+
+        // ctx.beginPath();
+        // ctx.moveTo(200,  400);
+        // ctx.lineTo(400,  400);
+        // ctx.strokeStyle='blue';
+        // ctx.lineWidth = 5;
+        // ctx.stroke();
+
+        // ctx.beginPath();
+        // ctx.moveTo(400,  400);
+        // ctx.lineTo(400,  200)
+        // ctx.strokeStyle='yellow';
+        // ctx.lineWidth = 5;
+        // ctx.stroke();
+
+        // ctx.beginPath();
+        // ctx.moveTo(400,  200);
+        // ctx.lineTo(200,  200);
+        // ctx.strokeStyle='green';
+        // ctx.lineWidth = 5;
+        // ctx.stroke();
+        
+        // ctx.fillStyle  = "red";
+        // ctx.fill();
+        // ctx.closePath();
+
+        // drawLine(200,200,205,200,'red',2);
+        // drawLine(210,200,215,200,'red',2);
+        // drawLine(220,200,225,200,'red',2);
+        // drawLine(230,200,235,200,'red',2);
+
+        for(var i=0; i<20;i++){
+            drawLine(200+10*i,200,205+10*i,200,'red',2);
+        }
+
+        for(var i=0; i<20;i++){
+            drawLine(200+10*i,200+10*i,205+10*i,205+10*i,'green',2);
+        }
+
+        for(var i=0; i<20;i++){
+            drawLine(200,200+10*i,200,205+10*i,'blue',2);
+        }
+
+        
+        for(var i=0; i<20;i++){
+            drawLine(200+10*i,200+5*i,205+10*i,205+5*i,'yellow',2);
+        }
+        /*
+
+        */
+        function drawLine(x1,y1,x2,y2,color,width){
+            ctx.beginPath();
+        ctx.moveTo(x1,  y1);
+        ctx.lineTo(x2,  y2);
+        ctx.strokeStyle=color;
+        ctx.lineWidth = width;
+        ctx.stroke();     
+        ctx.closePath();
+
+        }
+    </script>
+</body>
+</html>

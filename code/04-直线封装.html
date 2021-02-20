@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>画直线</title>
+        <style>
+            canvas{
+                margin: 0 auto;
+                border: 2px solid #aaa;
+                display: block;
+            }
+        </style>
+    </head>
+<body>
+    <!-- canvas在低版本浏览器中不兼容，需要提示用户 -->
+    <!-- 如果让canvas左右居中，使用display设置为block -->
+    <canvas id="cont" width="500px" height="500px">您的浏览器版本过低，请升级浏览器或者使用chrome打开！</canvas>
+    <script>
+        // 使用原生js操作canvas
+        var vancas = document.querySelector('#cont');
+        var ctx = vancas.getContext('2d');
+        // ctx.lineJoin  = "round";
+        // ctx.beginPath();
+        // ctx.moveTo(200,  200);  // 13
+        // ctx.lineTo(200,  400);
+        // ctx.strokeStyle='black';
+        // ctx.lineWidth = 5;
+        // ctx.stroke();
+
+        // ctx.beginPath();
+        // ctx.moveTo(200,  400);
+        // ctx.lineTo(400,  400);
+        // ctx.strokeStyle='blue';
+        // ctx.lineWidth = 5;
+        // ctx.stroke();
+
+        // ctx.beginPath();
+        // ctx.moveTo(400,  400);
+        // ctx.lineTo(400,  200)
+        // ctx.strokeStyle='yellow';
+        // ctx.lineWidth = 5;
+        // ctx.stroke();
+
+        // ctx.beginPath();
+        // ctx.moveTo(400,  200);
+        // ctx.lineTo(200,  200);
+        // ctx.strokeStyle='green';
+        // ctx.lineWidth = 5;
+        // ctx.stroke();
+        
+        // ctx.fillStyle  = "red";
+        // ctx.fill();
+        // ctx.closePath();
+
+        drawLine(200,200,200,400,'red',5);
+        drawLine(200,400,400,400,'green',5);
+        drawLine(400,400,400,200,'blue',5);
+        drawLine(400,200,200,200,'black',5);
+        /*
+
+        */
+        function drawLine(x1,y1,x2,y2,color,width){
+            ctx.beginPath();
+        ctx.moveTo(x1,  y1);
+        ctx.lineTo(x2,  y2);
+        ctx.strokeStyle=color;
+        ctx.lineWidth = width;
+        ctx.stroke();     
+        ctx.closePath();
+        }
+    </script>
+</body>
+</html>
